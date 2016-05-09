@@ -8,7 +8,7 @@ function initMap() {
     //initialize the map
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 40.7230, lng: -74.0006},
-        zoom: 12
+        zoom: 13
     });
     //tie the directions to the map
     directionsDisplay.setMap(map);
@@ -18,29 +18,47 @@ function initMap() {
     bikeLayer.setMap(map);
     
     //load in the Citibike station data from the JSON file
+    map.data.loadGeoJson('data.json');
+    map.data.setStyle({visible: false});
     $("#pins").click(function() {
-        map.data.loadGeoJson('data.json');
-    })
+        map.data.setStyle({visible: true});
+    });
+    
+    $("#hidepins").click(function() {
+      map.data.setStyle({visible: false});
+    });
     
     //add event listeners to the pins
-//    var origin;
-//    var destination;
+    var originInput = document.getElementById("start");
+    var destinationInput = document.getElementById("end");
     
     map.data.addListener('click', function(e){
         document.getElementById("station").textContent = e.feature.H.Station;
-        console.log(e.feature.H)
+        origin = e.feature.H.Station;
+    })
+    
+    var autocomplete = new google.maps.places.Autocomplete(originInput);
+    var autocomplete2 = new google.maps.places.Autocomplete(destinationInput);
+    autocomplete.bindTo('bounds', map);
+    
+    $("#setstart").click(function(){
+        var startingPoint = document.getElementById("start").textContent;
+        console.log(document.getElementById("station").textContent);
+        startingPoint = document.getElementById("station").textContent;
+        console.log(startingPoint);
     })
 
     function calculateAndDisplayRoute(directionsService, directionsDisplay) {
         directionsService.route({
-            origin: "173 Ludlow St, New York, NY 10002",
-            destination: "90 John St, New York, NY 10038",
+            origin: originInput.value,
+            destination: destinationInput.value,
             travelMode: google.maps.TravelMode.BICYCLING
         }, 
         
         function(response, status) {
             if (status === google.maps.DirectionsStatus.OK) {
                 directionsDisplay.setDirections(response);
+                console.log(response);
             } else {
             window.alert('Directions request failed due to ' + status);
             }

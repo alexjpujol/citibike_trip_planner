@@ -4,11 +4,16 @@ html
         link(rel="stylesheet" type="text/css" href="style.css")
     body
         h1 Citibike Trip Planner
+        input#start(placeholder="Start")
+        input#end(placeholder="End")
         button#route Find Route
         button#pins Show CitiBike Locations
+        button#hidepins Hide CitiBike Locations
         #map
         #infobox
             p#station
+            button#setstart Start Here
+            button#setend End Here
         script(type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js")
-        script(type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBlfG3P6hzRA5TP9HutLotNg8yLM-6lM1U&callback=initMap" async defer)
+        script(type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBlfG3P6hzRA5TP9HutLotNg8yLM-6lM1U&callback=initMap&libraries=places" async defer)
         script(type="text/javascript" src="script.js")
