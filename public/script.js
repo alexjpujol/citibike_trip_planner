@@ -18,17 +18,36 @@ function initMap() {
     bikeLayer.setMap(map);
     
     //load in the Citibike station data from the JSON file
-    map.data.loadGeoJson('data.json');
+    $("#pins").click(function() {
+        map.data.loadGeoJson('data.json');
+    })
     
     //add event listeners to the pins
+//    var origin;
+//    var destination;
+    
     map.data.addListener('click', function(e){
         document.getElementById("station").textContent = e.feature.H.Station;
+        console.log(e.feature.H)
     })
 
-    var route = {
+    function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+        directionsService.route({
+            origin: "173 Ludlow St, New York, NY 10002",
+            destination: "90 John St, New York, NY 10038",
+            travelMode: google.maps.TravelMode.BICYCLING
+        }, 
         
+        function(response, status) {
+            if (status === google.maps.DirectionsStatus.OK) {
+                directionsDisplay.setDirections(response);
+            } else {
+            window.alert('Directions request failed due to ' + status);
+            }
+        });
     }
-
     
-    
-};
+    $("#route").click(function() {
+        calculateAndDisplayRoute(directionsService, directionsDisplay);
+    });
+}
