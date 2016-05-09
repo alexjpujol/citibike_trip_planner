@@ -11,3 +11,11 @@ h1 {
 #map {
     height: 80%;
 }
+
+#infobox {
+    width: 100px;
+    height: 50px;
+    position: absolute;
+    top: 500px;
+    background-color: white;
+}
